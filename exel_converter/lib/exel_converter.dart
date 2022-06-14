@@ -1,7 +1,24 @@
 library exel_converter;
 
-/// A Calculator.
-class Calculator {
-  /// Returns [value] plus 1.
-  int addOne(int value) => value + 1;
+import 'dart:io';
+
+import 'package:excel/excel.dart';
+
+import 'models/schedule.dart';
+
+class Converter {
+  /// Returns Schedule from plus 1.
+  Iterable<Schedule> convertToSchedule(File value) {
+    var data = value.readAsBytesSync();
+
+    var excel = Excel.decodeBytes(data);
+    var tables = excel.tables;
+    for (var key in tables.keys) {
+      if (tables[key] != null) {
+        tables.cell(0);
+      }
+    }
+
+    throw Exception("");
+  }
 }
