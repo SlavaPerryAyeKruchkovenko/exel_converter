@@ -12,9 +12,15 @@ class Converter {
   /// Returns Schedule from plus 1.
   Iterable<Schedule> convertToSchedule(File value) {
     var data = value.readAsBytesSync();
-    List<Schedule> schedules = [];
     var excel = Excel.decodeBytes(data);
     var tables = excel.tables;
+    return _parseTables(tables);
+  }
+
+  List<Schedule> _parseTables(
+    tables,
+  ) {
+    List<Schedule> schedules = [];
     for (var key in tables.keys) {
       if (tables[key] != null) {
         var sheet = tables[key]!;
@@ -29,10 +35,9 @@ class Converter {
             throw Exception("$ex");
           }
         }
-      } else {
-        throw Exception('incorrect Excel list $key');
       }
     }
+    if (schedules.isEmpty) throw Exception('schebules not found');
     return schedules;
   }
 
@@ -45,11 +50,18 @@ class Converter {
     var name = arr[0];
     var groupNum = int.parse(arr[1]);
     return Schedule(
-        schedules: _getSchedules(), groupName: name, groupNum: groupNum);
+        schedules: _getWeekSchedules(sheet, nameIndex),
+        groupName: name,
+        groupNum: groupNum);
   }
 
-  List<WeekSchedule> _getSchedules() {
-    throw Exception();
+  List<WeekSchedule> _getWeekSchedules(Sheet sheet, CellIndex start) {
+    List<WeekSchedule> weekSchedules = [];
+    var startNum = start.rowIndex + 1;
+    var dayIndex = CellIndex.indexByColumnRow(
+        columnIndex: "B".codeUnitAt(0), rowIndex: startNum);
+
+    return weekSchedules;
   }
 
   CellIndex _getStartOfTable(Sheet sheet, String letter) {
