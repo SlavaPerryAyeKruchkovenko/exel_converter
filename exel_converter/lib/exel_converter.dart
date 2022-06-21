@@ -4,6 +4,7 @@ import 'dart:io';
 
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:excel/excel.dart';
+import 'package:exel_converter/models/day_schedule.dart';
 import 'package:exel_converter/models/week_schedule.dart';
 
 import 'models/schedule.dart';
@@ -57,11 +58,23 @@ class Converter {
 
   List<WeekSchedule> _getWeekSchedules(Sheet sheet, CellIndex start) {
     List<WeekSchedule> weekSchedules = [];
-    var startNum = start.rowIndex + 1;
+    var startRow = start.rowIndex + 1;
     var dayIndex = CellIndex.indexByColumnRow(
-        columnIndex: "B".codeUnitAt(0), rowIndex: startNum);
-
+        columnIndex: "A".codeUnitAt(0), rowIndex: startRow);
+    List<DaySchedule> frtPairs = [];
+    List<DaySchedule> secondPairs = [];
+    _getDayEnd(sheet, dayIndex);
     return weekSchedules;
+  }
+
+  DaySchedule _getDaySchedule() {
+    throw Exception();
+  }
+
+  CellIndex _getDayEnd(Sheet sheet, CellIndex start) {
+    CellStyle style = sheet.cell(start).cellStyle;
+    var a = style.backgroundColor;
+    throw Exception();
   }
 
   CellIndex _getStartOfTable(Sheet sheet, String letter) {

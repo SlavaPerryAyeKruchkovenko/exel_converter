@@ -1,7 +1,7 @@
-import 'package:exel_converter/models/pair.dart';
+import 'day_schedule.dart';
 
 class WeekSchedule {
-  final int dayNumber;
-  final List<Pair> pairs;
-  WeekSchedule({required this.dayNumber, required this.pairs});
+  final int weekNumber;
+  final List<DaySchedule> pairs;
+  WeekSchedule({required this.weekNumber, required this.pairs});
 }
