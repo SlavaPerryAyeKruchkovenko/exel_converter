@@ -1,8 +1,6 @@
 library exel_converter;
 
 import 'dart:io';
-
-// ignore: import_of_legacy_library_into_null_safe
 import 'package:excel/excel.dart';
 import 'package:exel_converter/models/day_schedule.dart';
 import 'package:exel_converter/models/week_schedule.dart';
@@ -72,8 +70,8 @@ class Converter {
   }
 
   CellIndex _getDayEnd(Sheet sheet, CellIndex start) {
-    CellStyle style = sheet.cell(start).cellStyle;
-    var a = style.backgroundColor;
+    CellStyle? style = sheet.cell(start).cellStyle;
+    var a = style!.backgroundColor;
     throw Exception();
   }
 
