@@ -6,6 +6,7 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   test('test 1 execel file', () {
     var file = File('D:\\test\\test.xlsx');
-    Converter().convertToSchedule(file);
+    var a = Converter().convertToSchedule(file);
+    a.first;
   });
 }

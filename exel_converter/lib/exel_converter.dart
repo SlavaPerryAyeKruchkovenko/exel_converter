@@ -23,15 +23,20 @@ class Converter {
     for (var key in tables.keys) {
       if (tables[key] != null) {
         var sheet = tables[key]!;
-        int groupCount = 0;
-        int start = "C".codeUnitAt(0);
+        var groupCount = 0;
         try {
-          groupCount++;
-          start += 2;
-          schedules.add(_getSchedule(sheet, start));
+          var nameIndex = _getStartOfTable(sheet, "C");
+
+          while (true) {
+            schedules.add(_getSchedule(sheet, nameIndex));
+            groupCount++;
+            nameIndex = CellIndex.indexByColumnRow(
+                columnIndex: nameIndex.columnIndex + 2,
+                rowIndex: nameIndex.rowIndex);
+          }
         } catch (ex) {
           if (groupCount <= 0) {
-            throw Exception("$ex");
+            //throw Exception("$ex");
           }
         }
       }
@@ -42,9 +47,8 @@ class Converter {
 
   Schedule _getSchedule(
     Sheet sheet,
-    int start,
+    CellIndex nameIndex,
   ) {
-    var nameIndex = _getStartOfTable(sheet, String.fromCharCode(start));
     var arr = sheet.cell(nameIndex).value.toString().split(' ');
     var name = arr[0];
     var groupNum = int.parse(arr[1]);
@@ -57,11 +61,11 @@ class Converter {
   List<WeekSchedule> _getWeekSchedules(Sheet sheet, CellIndex start) {
     List<WeekSchedule> weekSchedules = [];
     var startRow = start.rowIndex + 1;
-    var dayIndex = CellIndex.indexByColumnRow(
-        columnIndex: "A".codeUnitAt(0), rowIndex: startRow);
+    var dayIndex =
+        CellIndex.indexByColumnRow(columnIndex: 0, rowIndex: startRow);
     List<DaySchedule> frtPairs = [];
     List<DaySchedule> secondPairs = [];
-    _getDayEnd(sheet, dayIndex);
+    //_getDayEnd(sheet, dayIndex);
     return weekSchedules;
   }
 
@@ -78,10 +82,11 @@ class Converter {
   CellIndex _getStartOfTable(Sheet sheet, String letter) {
     var maxIndex = 15;
     CellIndex? cellIndex;
-    for (var i = 0; i <= maxIndex; i++) {
+    for (var i = 11; i <= maxIndex; i++) {
       cellIndex = CellIndex.indexByString(letter + i.toString());
+
       var cellArr = sheet.cell(cellIndex).value.toString().split(' ');
-      if (cellArr.length == 2 && int.tryParse(cellArr[1]) != null) {
+      if (cellArr.length >= 2 && int.tryParse(cellArr[1]) != null) {
         return cellIndex;
       }
     }
