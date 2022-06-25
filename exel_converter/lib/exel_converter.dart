@@ -62,7 +62,7 @@ class Converter {
     List<WeekSchedule> weekSchedules = [];
     var startRow = start.rowIndex + 1;
     var dayIndex =
-        CellIndex.indexByColumnRow(columnIndex: 0, rowIndex: startRow);
+        CellIndex.indexByColumnRow(columnIndex: 1, rowIndex: startRow);
     List<DaySchedule> frtPairs = [];
     List<DaySchedule> secondPairs = [];
     //_getDayEnd(sheet, dayIndex);
